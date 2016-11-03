@@ -7,16 +7,15 @@ The following issues are known to occure:
 
 ## Albums
 Albums listened to will making this program.
-### BAND/ARITST NAME             ALBUM NAME
+### BAND/ARITST NAME - ALBUM NAME
 ---
-> NECROMORBID                   El Dia de la Bestia
-
-> Deathspell Omega              The Synarchy of Molten Bones
-> MetalTower                    Myopic Dystopia
-> Spektral Hatchery             Spektral Hatchery
-> EPHEMERAL LANDSCAPES          EPHEMERAL LANDSCAPES
-> Falx                          Autumn Slasher
-> Batushka                      Litourgiya
+NECROMORBID - El Dia de la Bestia
+Deathspell Omega - The Synarchy of Molten Bones
+MetalTower - Myopic Dystopia
+Spektral Hatchery - Spektral Hatchery
+EPHEMERAL LANDSCAPES - EPHEMERAL LANDSCAPES
+Falx - Autumn Slasher
+Batushka - Litourgiya
 
 ## License
 Licenses under the GNU GENERAL PUBLIC LICENSE 3.0. Please see the LICENSE file for more information.
