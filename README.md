@@ -10,6 +10,7 @@ Albums listened to will making this program.
 ### BAND/ARITST NAME             ALBUM NAME
 ---
 > NECROMORBID                   El Dia de la Bestia
+
 > Deathspell Omega              The Synarchy of Molten Bones
 > MetalTower                    Myopic Dystopia
 > Spektral Hatchery             Spektral Hatchery
