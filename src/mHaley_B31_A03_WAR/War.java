@@ -161,17 +161,21 @@ public class War
 				}
 				else
 				{
+					/* The following code lays out the rules for a WAR */
 					warHasEnded = false;
 					addToOutput("It's a tie! IT IS TIME FOR WAR!");
 					addToOutput("Each player puts 3 cards in the trench!");
 					while (!warHasEnded)
 					{
-						kitty.push(getPlayer1CurrentCard());
-						kitty.push(getPlayer2CurrentCard());
+						// kitty.push(getPlayer1CurrentCard());
+						// kitty.push(getPlayer2CurrentCard());
+						winnersPot.add(getPlayer1CurrentCard());
+						winnersPot.add(getPlayer2CurrentCard());
 						for (int x = 0; x < 3; x++)
 						{
 							kitty.push(player1Hand.dequeue());
 							kitty.push(player2Hand.dequeue());
+							System.out.println("Two cards added to Trench");
 						}
 						addToOutput("The trench contains " + kitty.size() + " cards.");
 
@@ -186,13 +190,16 @@ public class War
 						winnersPot.add(getPlayer1CurrentCard());
 						winnersPot.add(getPlayer2CurrentCard());
 
+						for (int o = 0; o <= kitty.size() + 1; o++)
+						{
+							winnersPot.add(kitty.pop());
+							System.out.println("Trench added to winners pot.");
+						}
+						System.out.println("The winners pot has: " + winnersPot.size());
+
 						if (getPlayer1CurrentCard().getRank() > getPlayer2CurrentCard()
 								.getRank())
 						{
-							for (int o = 0; o < kitty.size(); o++)
-							{
-								winnersPot.add(kitty.pop());
-							}
 							distributeWinnings(player1Hand, winnersPot);
 							addToOutput(getPlayer1() + victoryVerbs() + getPlayer2() + "!");
 							warHasEnded = true;
@@ -201,10 +208,6 @@ public class War
 							if (getPlayer2CurrentCard().getRank() > getPlayer1CurrentCard()
 									.getRank())
 							{
-								for (int o = 0; o < kitty.size(); o++)
-								{
-									winnersPot.add(kitty.pop());
-								}
 								distributeWinnings(player2Hand, winnersPot);
 								addToOutput(getPlayer2() + victoryVerbs() + getPlayer1() + "!");
 								warHasEnded = true;
