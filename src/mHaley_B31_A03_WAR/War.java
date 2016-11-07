@@ -20,6 +20,7 @@ public class War
 	private Queue<Card> player2Hand = new ListQueue<Card>(52);
 	private Card player1CurrentCard;
 	private Card player2CurrentCard;
+	private boolean debugMode = false;
 
 	War()
 	{
@@ -29,6 +30,17 @@ public class War
 		start(); // Call start to shuffle the cards and distribute the cards into
 							// the players hands.
 	}// War()
+	
+	War(boolean theHouseAlwaysWin)
+	{
+		/* All is fair in love, and war. */
+		player1 = "Cheater Cheater";
+		player2 = "Pumpkin Eater";
+		start();
+		deckOfCards = new Deck(); // Creates a brand  new deck
+		deckOfCards.rigTheGame(null); // Sets the array of cards into the deck
+		boolean debugMode = true; // Let the game know it's in debug mode
+	} // War(..)
 
 	protected String getPlayer1()
 	{
@@ -51,7 +63,6 @@ public class War
 	protected void setPlayer2(String player2)
 	{
 		// Sets player2 to the value of @param player2
-		System.out.println("DEBUG: Player 2 name set.");
 		this.player2 = player2;
 	} // setPlayer2(...)
 
@@ -98,7 +109,14 @@ public class War
 		 * *Hand queues.
 		 */
 		boolean cardForPlayer1 = true; // Lets us alternate hands
-		deckOfCards.shuffle();
+		if(!debugMode)
+		{
+			deckOfCards.shuffle();
+		}
+		else
+		{
+			System.out.println("DEBUG MODE IS ON!------------");
+		}
 		addToOutput("The deck has been shuffled.");
 
 		while (deckOfCards.size() != 0)

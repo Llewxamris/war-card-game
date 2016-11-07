@@ -25,9 +25,9 @@ public class WarGame
 		System.out.println(
 				"The victor of WAR! gets all the cards inside the trench. \nNow, what are the combatents names?");
 		System.out.print("Enter the name of Player 1: ");
-		game.setPlayer1(keyboard.next());
+		game.setPlayer1(keyboard.nextLine());
 		System.out.print("Enter the name of Player 2: ");
-		game.setPlayer2(keyboard.next());
+		game.setPlayer2(keyboard.nextLine());
 		System.out.println("Time to play gaem");
 
 		while (!gameOver)

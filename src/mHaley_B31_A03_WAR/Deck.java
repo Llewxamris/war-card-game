@@ -81,4 +81,10 @@ public class Deck
 		/* Returns the size of the queue shuffledDeckOfCards */
 		return shuffledDeckOfCards.size();
 	} // size()
+
+	protected void rigTheGame(String[] cheatCards)
+	{
+		/* "Rigs" the card game by overriding the cards in the deck. */
+
+	} // righTheGame
 }
