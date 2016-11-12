@@ -11,7 +11,7 @@ public class Deck
 	private final String[] RANKS = { "A", "2", "3", "4", "5", "6", "7", "8", "9",
 			"10", "J", "Q", "K" };
 	// SUITS contains all possible suits for the Card class
-	private final char[] SUITS = { 'A', 'C', 'H', 'D' };
+	private final char[] SUITS = { 'S', 'C', 'H', 'D' };
 	// unshuffledDeckOfCards is an ArrayList that contains the cards in no
 	// particular order
 	private ArrayList<Card> unshuffledDeckOfCards = new ArrayList<Card>();
@@ -29,22 +29,11 @@ public class Deck
 		{
 			for (int j = 0; j < SUITS.length; j++)
 			{
-				Card singleCard = new Card();
-				singleCard.setRank(RANKS[k]);
-				singleCard.setSuit(SUITS[j]);
-
+				Card singleCard = new Card(RANKS[k], SUITS[j]);
 				unshuffledDeckOfCards.add(singleCard);
 			}
 		}
 	} // Deck()
-
-	Deck(Object literallyAnything)
-	{
-		/*
-		 * A deck object that will implement the cards in a pre-determined way. This
-		 * will be used for testing.
-		 */
-	}// Deck(...)
 
 	protected void shuffle()
 	{
@@ -68,7 +57,7 @@ public class Deck
 		 */
 		if (shuffledDeckOfCards.isEmpty())
 		{
-			return null;
+			return unshuffledDeckOfCards.get(unshuffledDeckOfCards.size() - 1);
 		}
 		else
 		{
@@ -85,6 +74,12 @@ public class Deck
 	protected void rigTheGame(String[] cheatCards)
 	{
 		/* "Rigs" the card game by overriding the cards in the deck. */
-
+		shuffledDeckOfCards.clear();
+		for (int k = 0; k < cheatCards.length; k++)
+		{
+			Card singleCard = new Card();
+			singleCard.setRank(cheatCards[k]);
+			shuffledDeckOfCards.enqueue(singleCard);
+		}
 	} // righTheGame
 }
