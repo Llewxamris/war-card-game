@@ -10,7 +10,7 @@ public class WarGame
 		// TODO Auto-generated method stub
 		Scanner keyboard = new Scanner(System.in);
 		War game = new War();
-		String winner;
+		String results;
 		boolean gameOver = false;
 
 		printWAR();
@@ -28,22 +28,27 @@ public class WarGame
 		game.setPlayer1(keyboard.nextLine());
 		System.out.print("Enter the name of Player 2: ");
 		game.setPlayer2(keyboard.nextLine());
-		System.out.println("Time to play gaem");
 
 		while (!gameOver)
 		{
-			winner = game.play();
+			results = game.play();
 			System.out.println(game.getOutput());
 			game.clearOutput();
 
-			if (winner.equals(game.getPlayer1()))
+			if (results.equals("WAR"))
+			{
+				results = game.WAR();
+				System.out.println(game.getOutput());
+				game.clearOutput();
+			}
+			if (results.equals(game.getPlayer1()))
 			{
 				System.out.print(game.getPlayer1() + " is the victor! Thank you for playing WAR!");
 				keyboard.close();
 				System.exit(0);
 			}
 			else
-				if (winner.equals(game.getPlayer2()))
+				if (results.equals(game.getPlayer2()))
 				{
 					System.out.print(game.getPlayer2() + " is the victor! Thank you for playing WAR!");
 					keyboard.close();
