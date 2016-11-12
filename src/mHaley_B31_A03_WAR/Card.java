@@ -4,10 +4,24 @@ public class Card
 {
 	private char suit; // The cards suit
 	private String rank; // The cards value
-	
-	Card() {
+
+	Card()
+	{
 		suit = 'X'; // Default suit, indicates card has been set in debug mode
+		rank = "0"; // Default rank, indicates that the card hasn't had any values set
 	}
+
+	Card(String value)
+	{
+		suit = 'X';
+		rank = value;
+	} // Card(...)
+
+	Card(String value, char type)
+	{
+		suit = type;
+		rank = value;
+	} // Card(...)
 
 	protected char getSuit()
 	{
