@@ -13,7 +13,7 @@ public class War
 	private Deck deckOfCards = new Deck(); // The deck of cards
 	private String player1; // The String containing the first players name
 	private String player2; // The String containing the second player name
-	private String output;
+	private String output = "";
 	// The queue containing the first players hand
 	private Queue<Card> player1Hand = new ListQueue<Card>(52);
 	// The queue containing the second players hand
@@ -30,16 +30,16 @@ public class War
 		start(); // Call start to shuffle the cards and distribute the cards into
 							// the players hands.
 	}// War()
-	
-	War(boolean theHouseAlwaysWin)
+
+	War(boolean theHouseAlwaysWin, String[] values)
 	{
+		debugMode = true; // Let the game know it's in debug mode
 		/* All is fair in love, and war. */
 		player1 = "Cheater Cheater";
 		player2 = "Pumpkin Eater";
+		deckOfCards = new Deck(); // Creates a brand new deck
+		deckOfCards.rigTheGame(values); // Sets the array of cards into the deck
 		start();
-		deckOfCards = new Deck(); // Creates a brand  new deck
-		deckOfCards.rigTheGame(null); // Sets the array of cards into the deck
-		boolean debugMode = true; // Let the game know it's in debug mode
 	} // War(..)
 
 	protected String getPlayer1()
@@ -109,15 +109,15 @@ public class War
 		 * *Hand queues.
 		 */
 		boolean cardForPlayer1 = true; // Lets us alternate hands
-		if(!debugMode)
+		if (!debugMode)
 		{
 			deckOfCards.shuffle();
+			addToOutput("The deck has been shuffled.");
 		}
 		else
 		{
 			System.out.println("DEBUG MODE IS ON!------------");
 		}
-		addToOutput("The deck has been shuffled.");
 
 		while (deckOfCards.size() != 0)
 		{
@@ -132,10 +132,7 @@ public class War
 				cardForPlayer1 = true;
 			}
 		}
-		addToOutput(
-				getPlayer1() + " has " + player1Hand.size() + " cards to start.");
-		addToOutput(
-				getPlayer2() + " has " + player2Hand.size() + " cards to start.");
+		addToOutput("Both players have " + player1Hand.size() + " cards to start.");
 		addToOutput("\nIT IS TIME, FOR WAR!");
 		addToOutput("--------------------");
 
@@ -149,8 +146,7 @@ public class War
 		 */
 
 		ArrayList<Card> winnersPot = new ArrayList<Card>();
-		Stack<Card> kitty = new Stack<Card>();
-		boolean warHasEnded;
+		String winner = "";
 
 		try
 		{
@@ -169,6 +165,7 @@ public class War
 			{
 				distributeWinnings(player1Hand, winnersPot);
 				addToOutput(getPlayer1() + " wins the hand!");
+				winner = getPlayer1();
 			}
 			else
 				if (getPlayer2CurrentCard().getRank() > getPlayer1CurrentCard()
@@ -176,84 +173,99 @@ public class War
 				{
 					distributeWinnings(player2Hand, winnersPot);
 					addToOutput(getPlayer2() + " wins the hand!");
+					winner = getPlayer2();
 				}
 				else
 				{
-					/* The following code lays out the rules for a WAR */
-					warHasEnded = false;
-					addToOutput("It's a tie! IT IS TIME FOR WAR!");
-					addToOutput("Each player puts 3 cards in the trench!");
-					while (!warHasEnded)
-					{
-						// kitty.push(getPlayer1CurrentCard());
-						// kitty.push(getPlayer2CurrentCard());
-						winnersPot.add(getPlayer1CurrentCard());
-						winnersPot.add(getPlayer2CurrentCard());
-						for (int x = 0; x < 3; x++)
-						{
-							kitty.push(player1Hand.dequeue());
-							kitty.push(player2Hand.dequeue());
-							System.out.println("Two cards added to Trench");
-						}
-						addToOutput("The trench contains " + kitty.size() + " cards.");
-
-						setPlayer1CurrentCard(player1Hand.dequeue());
-						addToOutput(getPlayer1() + playVerbs()
-								+ getPlayer1CurrentCard().toString() + "!");
-
-						setPlayer2CurrentCard(player2Hand.dequeue());
-						addToOutput(getPlayer2() + playVerbs()
-								+ getPlayer2CurrentCard().toString() + "!");
-
-						winnersPot.add(getPlayer1CurrentCard());
-						winnersPot.add(getPlayer2CurrentCard());
-
-						for (int o = 0; o <= kitty.size() + 1; o++)
-						{
-							winnersPot.add(kitty.pop());
-							System.out.println("Trench added to winners pot.");
-						}
-						System.out.println("The winners pot has: " + winnersPot.size());
-
-						if (getPlayer1CurrentCard().getRank() > getPlayer2CurrentCard()
-								.getRank())
-						{
-							distributeWinnings(player1Hand, winnersPot);
-							addToOutput(getPlayer1() + victoryVerbs() + getPlayer2() + "!");
-							warHasEnded = true;
-						}
-						else
-							if (getPlayer2CurrentCard().getRank() > getPlayer1CurrentCard()
-									.getRank())
-							{
-								distributeWinnings(player2Hand, winnersPot);
-								addToOutput(getPlayer2() + victoryVerbs() + getPlayer1() + "!");
-								warHasEnded = true;
-							}
-					}
+					return "WAR";
 				}
 		}
 		// WAR!!!
 		catch (EmptyQueueException e)
 		{
-			warHasEnded = true;
 		}
 
 		addToOutput(getPlayer1() + " has " + player1Hand.size() + " cards left.");
 		addToOutput(getPlayer2() + " has " + player2Hand.size() + " cards left.");
 		winnersPot.clear();
 
-		if (player1Hand.isEmpty())
+		if (player1Hand.isEmpty() || player2Hand.isEmpty())
 		{
-			return getPlayer2();
+			return winner;
 		}
 		else
-			if (player2Hand.isEmpty())
-			{
-				return getPlayer1();
-			}
-		return "No Current Winner";
+		{
+			return "no winner";
+		}
 	} // play()
+
+	protected String WAR()
+	{
+		ArrayList<Card> winnersPot = new ArrayList<Card>();
+		Stack<Card> kitty = new Stack<Card>();
+		String winner = "";
+
+		try
+		{
+			winnersPot.add(getPlayer1CurrentCard());
+			winnersPot.add(getPlayer2CurrentCard());
+			for (int x = 0; x < 3; x++)
+			{
+				kitty.push(player1Hand.dequeue());
+				kitty.push(player2Hand.dequeue());
+			}
+			addToOutput("The trench contains " + kitty.size() + " cards.");
+
+			setPlayer1CurrentCard(player1Hand.dequeue());
+			addToOutput(getPlayer1() + playVerbs()
+					+ getPlayer1CurrentCard().toString() + "!");
+
+			setPlayer2CurrentCard(player2Hand.dequeue());
+			addToOutput(getPlayer2() + playVerbs()
+					+ getPlayer2CurrentCard().toString() + "!");
+
+			winnersPot.add(getPlayer1CurrentCard());
+			winnersPot.add(getPlayer2CurrentCard());
+
+			for (int o = 0; o <= kitty.size() + 1; o++)
+			{
+				winnersPot.add(kitty.pop());
+			}
+
+			if (getPlayer1CurrentCard().getRank() > getPlayer2CurrentCard().getRank())
+			{
+				distributeWinnings(player1Hand, winnersPot);
+				addToOutput(getPlayer1() + victoryVerbs() + getPlayer2() + "!");
+				winner = getPlayer1();
+			}
+			else
+				if (getPlayer2CurrentCard().getRank() > getPlayer1CurrentCard()
+						.getRank())
+				{
+					distributeWinnings(player2Hand, winnersPot);
+					addToOutput(getPlayer2() + victoryVerbs() + getPlayer1() + "!");
+					winner = getPlayer2();
+				}
+				else
+				{
+					return "WAR";
+				}
+		}
+		catch (EmptyQueueException e)
+		{
+
+		}
+
+		if (player1Hand.isEmpty() || player2Hand.isEmpty())
+		{
+			return winner;
+		}
+		else
+		{
+			return "no winner";
+		}
+
+	}
 
 	private void distributeWinnings(Queue<Card> winningHand,
 			ArrayList<Card> winnings)
