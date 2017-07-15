@@ -2,8 +2,8 @@ package mHaley_B31_A03_WAR;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import adts.queue.ListQueue;
-import adts.queue.Queue;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Deck
 {
@@ -17,7 +17,7 @@ public class Deck
 	private ArrayList<Card> unshuffledDeckOfCards = new ArrayList<Card>();
 	// shuffledDeckOfCards is a Queue that contains unshuffledDeckOfCards in a
 	// random order
-	private Queue<Card> shuffledDeckOfCards = new ListQueue<Card>();
+	private Queue<Card> shuffledDeckOfCards = new LinkedList<Card>();
 
 	Deck()
 	{
@@ -45,7 +45,7 @@ public class Deck
 
 		for (int i = 0; i < unshuffledDeckOfCards.size(); i++)
 		{
-			shuffledDeckOfCards.enqueue(unshuffledDeckOfCards.get(i));
+			shuffledDeckOfCards.add(unshuffledDeckOfCards.get(i));
 		}
 	} // shuffle()
 
@@ -61,7 +61,7 @@ public class Deck
 		}
 		else
 		{
-			return shuffledDeckOfCards.dequeue();
+			return shuffledDeckOfCards.remove();
 		}
 	}// deal()
 
@@ -79,7 +79,7 @@ public class Deck
 		{
 			Card singleCard = new Card();
 			singleCard.setRank(cheatCards[k]);
-			shuffledDeckOfCards.enqueue(singleCard);
+			shuffledDeckOfCards.add(singleCard);
 		}
 	} // righTheGame
 }

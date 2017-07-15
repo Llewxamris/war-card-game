@@ -1,12 +1,10 @@
 package mHaley_B31_A03_WAR;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Random;
 import java.util.Stack;
-
-import adts.queue.EmptyQueueException;
-import adts.queue.ListQueue;
-import adts.queue.Queue;
 
 public class War
 {
@@ -15,9 +13,9 @@ public class War
 	private String player2; // The String containing the second player name
 	private String output = "";
 	// The queue containing the first players hand
-	private Queue<Card> player1Hand = new ListQueue<Card>(52);
+	private Queue<Card> player1Hand = new LinkedList<Card>();
 	// The queue containing the second players hand
-	private Queue<Card> player2Hand = new ListQueue<Card>(52);
+	private Queue<Card> player2Hand = new LinkedList<Card>();
 	private Card player1CurrentCard;
 	private Card player2CurrentCard;
 	private boolean debugMode = false;
@@ -123,12 +121,12 @@ public class War
 		{
 			if (cardForPlayer1)
 			{
-				player1Hand.enqueue(deckOfCards.deal());
+				player1Hand.add(deckOfCards.deal());
 				cardForPlayer1 = false;
 			}
 			else
 			{
-				player2Hand.enqueue(deckOfCards.deal());
+				player2Hand.add(deckOfCards.deal());
 				cardForPlayer1 = true;
 			}
 		}
@@ -150,11 +148,11 @@ public class War
 
 		try
 		{
-			setPlayer1CurrentCard(player1Hand.dequeue());
+			setPlayer1CurrentCard(player1Hand.remove());
 			addToOutput(
 					getPlayer1() + " plays a " + getPlayer1CurrentCard().toString());
 
-			setPlayer2CurrentCard(player2Hand.dequeue());
+			setPlayer2CurrentCard(player2Hand.remove());
 			addToOutput(
 					getPlayer2() + " plays a " + getPlayer2CurrentCard().toString());
 
@@ -181,7 +179,7 @@ public class War
 				}
 		}
 		// WAR!!!
-		catch (EmptyQueueException e)
+		catch (IllegalStateException e)
 		{
 		}
 
@@ -211,16 +209,16 @@ public class War
 			winnersPot.add(getPlayer2CurrentCard());
 			for (int x = 0; x < 3; x++)
 			{
-				kitty.push(player1Hand.dequeue());
-				kitty.push(player2Hand.dequeue());
+				kitty.push(player1Hand.remove());
+				kitty.push(player2Hand.remove());
 			}
 			addToOutput("The trench contains " + kitty.size() + " cards.");
 
-			setPlayer1CurrentCard(player1Hand.dequeue());
+			setPlayer1CurrentCard(player1Hand.remove());
 			addToOutput(getPlayer1() + playVerbs()
 					+ getPlayer1CurrentCard().toString() + "!");
 
-			setPlayer2CurrentCard(player2Hand.dequeue());
+			setPlayer2CurrentCard(player2Hand.remove());
 			addToOutput(getPlayer2() + playVerbs()
 					+ getPlayer2CurrentCard().toString() + "!");
 
@@ -251,7 +249,7 @@ public class War
 					return "WAR";
 				}
 		}
-		catch (EmptyQueueException e)
+		catch (IllegalStateException e)
 		{
 
 		}
@@ -272,7 +270,7 @@ public class War
 	{
 		for (int i = 0; i < winnings.size(); i++)
 		{
-			winningHand.enqueue(winnings.get(i));
+			winningHand.add(winnings.get(i));
 		}
 	}
 
