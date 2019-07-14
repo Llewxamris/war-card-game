@@ -136,13 +136,13 @@ public class War {
             winnersPot.add(getPlayer1CurrentCard());
             winnersPot.add(getPlayer2CurrentCard());
 
-            if (getPlayer1CurrentCard().getRank() > getPlayer2CurrentCard()
-                    .getRank()) {
+            if (getPlayer1CurrentCard().getRank().getValue() > getPlayer2CurrentCard()
+                    .getRank().getValue()) {
                 distributeWinnings(player1Hand, winnersPot);
                 addToOutput(getPlayer1() + " wins the hand!");
                 winner = getPlayer1();
             } else if (getPlayer2CurrentCard()
-                    .getRank() > getPlayer1CurrentCard().getRank()) {
+                    .getRank().getValue() > getPlayer1CurrentCard().getRank().getValue()) {
                 distributeWinnings(player2Hand, winnersPot);
                 addToOutput(getPlayer2() + " wins the hand!");
                 winner = getPlayer2();
@@ -196,13 +196,13 @@ public class War {
                 winnersPot.add(kitty.pop());
             }
 
-            if (getPlayer1CurrentCard().getRank() > getPlayer2CurrentCard()
-                    .getRank()) {
+            if (getPlayer1CurrentCard().getRank().getValue() > getPlayer2CurrentCard()
+                    .getRank().getValue()) {
                 distributeWinnings(player1Hand, winnersPot);
                 addToOutput(getPlayer1() + victoryVerbs() + getPlayer2() + "!");
                 winner = getPlayer1();
             } else if (getPlayer2CurrentCard()
-                    .getRank() > getPlayer1CurrentCard().getRank()) {
+                    .getRank().getValue() > getPlayer1CurrentCard().getRank().getValue()) {
                 distributeWinnings(player2Hand, winnersPot);
                 addToOutput(getPlayer2() + victoryVerbs() + getPlayer1() + "!");
                 winner = getPlayer2();

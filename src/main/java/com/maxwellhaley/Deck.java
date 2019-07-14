@@ -6,11 +6,6 @@ import java.util.LinkedList;
 import java.util.Queue;
 
 public class Deck {
-    // RANKS contains all possible values for the Card class
-    private final String[] RANKS = { "A", "2", "3", "4", "5", "6", "7", "8",
-            "9", "10", "J", "Q", "K" };
-    // SUITS contains all possible suits for the Card class
-    private final char[] SUITS = { 'S', 'C', 'H', 'D' };
     // unshuffledDeckOfCards is an ArrayList that contains the cards in no
     // particular order
     private ArrayList<Card> unshuffledDeckOfCards = new ArrayList<Card>();
@@ -23,11 +18,11 @@ public class Deck {
          * Constructor for Deck. Creates all the cards, and adds the to an
          * unsorted collection called unsortedDeckOfCards.
          */
-        for (int k = 0; k < RANKS.length; k++) {
-            for (int j = 0; j < SUITS.length; j++) {
-                Card singleCard = new Card(RANKS[k], SUITS[j]);
-                unshuffledDeckOfCards.add(singleCard);
-            }
+        for (Rank rank: Rank.values()) {
+          unshuffledDeckOfCards.add(new Card(rank, Suit.CLUBS));
+          unshuffledDeckOfCards.add(new Card(rank, Suit.DIAMONDS));
+          unshuffledDeckOfCards.add(new Card(rank, Suit.HEARTS));
+          unshuffledDeckOfCards.add(new Card(rank, Suit.SPADES));
         }
     } // Deck()
 
@@ -64,9 +59,7 @@ public class Deck {
         /* "Rigs" the card game by overriding the cards in the deck. */
         shuffledDeckOfCards.clear();
         for (int k = 0; k < cheatCards.length; k++) {
-            Card singleCard = new Card();
-            singleCard.setRank(cheatCards[k]);
-            shuffledDeckOfCards.add(singleCard);
+            shuffledDeckOfCards.add(new Card(Rank.values()[k], Suit.SPADES));
         }
-    } // righTheGame
+    } // rigTheGame
 }
