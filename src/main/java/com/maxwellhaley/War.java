@@ -93,7 +93,6 @@ public class War {
          */
         boolean cardForPlayer1 = true; // Lets us alternate hands
         if (!debugMode) {
-            deckOfCards.shuffle();
             addToOutput("The deck has been shuffled.");
         } else {
             System.out.println("DEBUG MODE IS ON!------------");
