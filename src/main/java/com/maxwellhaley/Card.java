@@ -1,4 +1,4 @@
-package mHaley_B31_A03_WAR;
+package com.maxwellhaley;
 
 public class Card {
     private char suit; // The cards suit

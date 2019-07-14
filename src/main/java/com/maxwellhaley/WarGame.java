@@ -1,4 +1,4 @@
-package mHaley_B31_A03_WAR;
+package com.maxwellhaley;
 
 import java.util.Scanner;
 
