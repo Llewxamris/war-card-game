@@ -10,7 +10,6 @@ package com.maxwellhaley.war.model;
  * @since 2019-07-14
  */
 public enum Rank {
-  ONE(1, "One"),
   TWO(2, "Two"),
   THREE(3, "Three"),
   FOUR(4, "Four"),
