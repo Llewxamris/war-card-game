@@ -30,7 +30,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>com.maxwellhaley.WarGame</mainClass>
+							<mainClass>com.maxwellhaley.war.WarGame</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
