@@ -1,4 +1,4 @@
-package com.maxwellhaley;
+package com.maxwellhaley.war.model;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -21,7 +21,7 @@ public class Deck {
    * Upon instantiating a deck, it automatically fills itself with the correct
    * cards and shuffles.
    */
-  Deck() {
+  public Deck() {
     for (Rank rank : Rank.values()) {
       cards.add(new Card(rank, Suit.CLUBS));
       cards.add(new Card(rank, Suit.DIAMONDS));
@@ -61,7 +61,7 @@ public class Deck {
    * @param cheatCards
    */
   @Deprecated
-  protected void rigTheGame(String[] cheatCards) {
+  public void rigTheGame(String[] cheatCards) {
     cards.clear();
     for (int k = 0; k < cheatCards.length; k++) {
       cards.add(new Card(Rank.values()[k], Suit.SPADES));

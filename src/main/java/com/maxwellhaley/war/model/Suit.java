@@ -1,4 +1,4 @@
-package com.maxwellhaley;
+package com.maxwellhaley.war.model;
 
 /**
  * Represents the suit of card in the game of WAR!. The suit has no influence on

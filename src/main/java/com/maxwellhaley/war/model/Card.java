@@ -1,4 +1,4 @@
-package com.maxwellhaley;
+package com.maxwellhaley.war.model;
 
 /**
  * Represents a single card during a game of WAR!. A Card has two attributes: a

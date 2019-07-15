@@ -1,4 +1,4 @@
-package com.maxwellhaley;
+package com.maxwellhaley.war;
 
 import java.util.Scanner;
 

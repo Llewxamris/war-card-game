@@ -1,10 +1,13 @@
-package com.maxwellhaley;
+package com.maxwellhaley.war;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Random;
 import java.util.Stack;
+
+import com.maxwellhaley.war.model.Card;
+import com.maxwellhaley.war.model.Deck;
 
 public class War {
     private Deck deckOfCards = new Deck(); // The deck of cards

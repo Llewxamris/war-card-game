@@ -1,4 +1,4 @@
-package com.maxwellhaley;
+package com.maxwellhaley.war.model;
 
 /**
  * Represents the value of card in the game of WAR!. The values of the two cards
