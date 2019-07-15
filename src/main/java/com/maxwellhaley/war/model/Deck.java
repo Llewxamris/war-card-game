@@ -15,7 +15,7 @@ import java.util.List;
  */
 public class Deck {
   /** The cards held within the deck */
-  private List<Card> cards = new LinkedList<Card>();
+  protected List<Card> cards = new LinkedList<Card>();
 
   /**
    * Upon instantiating a deck, it automatically fills itself with the correct
