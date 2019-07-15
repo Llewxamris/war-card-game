@@ -7,7 +7,7 @@ package com.maxwellhaley.war.model;
  * 
  * @author Maxwell Haley
  * @version 2.0.0
- * @since 2016-11-03
+ * @since 2019-07-14
  */
 public enum Rank {
   ONE(1, "One"),
