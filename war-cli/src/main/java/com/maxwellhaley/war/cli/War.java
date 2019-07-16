@@ -5,7 +5,7 @@ import java.util.Random;
 public class War {
   
     public static void main(String[] args) {
-
+       System.out.println("Hello, world!");
     }
 
     private String victoryVerbs() {
