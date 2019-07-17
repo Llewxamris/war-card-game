@@ -1,11 +1,12 @@
 package com.maxwellhaley.war.core.test;
 
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import com.maxwellhaley.war.core.exception.NotEnoughCashException;
 import com.maxwellhaley.war.core.model.Player;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class PlayerTests {
 

@@ -14,6 +14,9 @@ public class Player {
   /** The players name. */
   private final String name;
 
+  /** The players current card. */
+  private Card card;
+
   /** The players current amount of cash. Cash is bet in whole values. */
   private int cash;
 
@@ -29,12 +32,36 @@ public class Player {
   }
 
   /**
+   * Get the players current card.
+   * 
+   * @return The players current card.
+   */
+  public Card getCard() {
+    return card;
+  }
+
+  /**
+   * Set the players current card.
+   */
+  public void setCard(Card card) {
+    this.card = card;
+  }
+
+  /**
    * Get the players current cash value.
    * 
    * @return The players current cash value.
    */
   public int getCash() {
     return cash;
+  }
+  
+  /**
+   * Add a cash value to the players total cash value;
+   * @param cash - The cash value to add.
+   */
+  public void addCash(int cash) {
+    this.cash += cash;
   }
 
   /**
@@ -52,14 +79,17 @@ public class Player {
    * exception is raised.
    * 
    * @param bet - The cash value of the players bet.
+   * @return The bet value.
    * @throws NotEnoughCashException The bet was larger than the players current
    *                                cash value.
    */
-  public void bet(int bet) throws NotEnoughCashException {
+  public int bet(int bet) throws NotEnoughCashException {
     if (bet > cash) {
       throw new NotEnoughCashException();
     }
 
     cash -= bet;
+    
+    return bet;
   }
 }

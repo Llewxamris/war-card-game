@@ -17,4 +17,8 @@ public class NotEnoughCashException extends Exception {
 
   public NotEnoughCashException() {}
 
+  public NotEnoughCashException(String message) {
+    super(message);
+  }
+
 }

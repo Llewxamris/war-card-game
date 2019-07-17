@@ -42,4 +42,14 @@ public class Card {
   public Suit getSuit() {
     return suit;
   }
+  
+  public int compareTo(Card card) {
+    if (rank.getValue() > card.getRank().getValue()) {
+      return 1;
+    } else if (rank.getValue() < card.getRank().getValue()) {
+      return -1;
+    } else {
+      return 0;
+    }
+  }
 }
