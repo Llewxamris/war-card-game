@@ -10,7 +10,7 @@
 
 	<modules>
 		<module>war-core</module>
-		<module>war-cli</module>
+		<module>war-game</module>
 	</modules>
 
 </project>

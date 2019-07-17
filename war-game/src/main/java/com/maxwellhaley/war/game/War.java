@@ -1,4 +1,4 @@
-package com.maxwellhaley.war.cli;
+package com.maxwellhaley.war.game;
 
 import java.util.Random;
 
