@@ -1,140 +1,121 @@
 package com.maxwellhaley.war.core.test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import com.maxwellhaley.war.core.exception.NotEnoughCashException;
 import com.maxwellhaley.war.core.model.Card;
-import com.maxwellhaley.war.core.model.Player;
 import com.maxwellhaley.war.core.model.Rank;
 import com.maxwellhaley.war.core.model.Suit;
+import com.maxwellhaley.war.core.result.BettingPhaseResult;
+import com.maxwellhaley.war.core.result.Result;
+import com.maxwellhaley.war.core.result.StandoffPhaseResult;
 import com.maxwellhaley.war.core.test.mock.MockDeck;
 import com.maxwellhaley.war.core.test.mock.MockGameMaster;
 
 public class GameMasterTests {
 
   @Test
-  void bettingPhaseSuccessfulBet() throws NotEnoughCashException {
+  void bettingPhaseSuccessfulBet() {
     MockGameMaster mockGm = new MockGameMaster(null);
-    Player p1 = new Player("Jim");
-    Player p2 = new Player("Sally");
+    mockGm.register("Jim", "Sally");
 
-    mockGm.register(p1, p2);
-    int bets = mockGm.runBettingPhase(250, 600);
+    BettingPhaseResult result = mockGm.runBettingPhase(250, 600);
 
-    assertEquals(850, bets,
+    assertEquals(850, result.winnings(),
             "Sum of bets did not add up to the correct amount of cash.");
-    assertEquals(750, p1.getCash(),
+    assertEquals(750, result.p1Cash(),
             "Player #1 does not have the correct amount of cash.");
-    assertEquals(400, p2.getCash(),
+    assertEquals(400, result.p2Cash(),
             "Player #2 does not have the correct amount of cash.");
   }
 
   @Test
   void bettingPhasePlayer1InvalidBet() {
     MockGameMaster mockGm = new MockGameMaster(null);
-    Player p1 = new Player("Jim");
-    Player p2 = new Player("Sally");
+    mockGm.register("Jim", "Sally");
 
-    mockGm.register(p1, p2);
-    assertThrows(NotEnoughCashException.class, () -> {
-      mockGm.runBettingPhase(1001, 600);
-    }, "Player #1 bet more than they had without error.");
+    BettingPhaseResult result = mockGm.runBettingPhase(1001, 600);
 
-    assertEquals(1000, p1.getCash(),
+    assertEquals(Result.PLAYER_1_BET_FAIL, result.phaseResult(),
+            "Betting phase result not registered as failure.");
+    assertEquals(1000, result.p1Cash(),
             "Player #1 does not have the correct amount of cash.");
-    assertEquals(1000, p2.getCash(),
+    assertEquals(1000, result.p2Cash(),
             "Player #2 does not have the correct amount of cash.");
-    assertEquals(0, mockGm.getThePot(), "The Pot did not reset on error.");
+    assertEquals(0, result.winnings(),
+            "Winnings were added despite a betting failure.");
   }
 
   @Test
   void bettingPhasePlayer2InvalidBet() {
     MockGameMaster mockGm = new MockGameMaster(null);
-    Player p1 = new Player("Jim");
-    Player p2 = new Player("Sally");
+    mockGm.register("Jim", "Sally");
 
-    mockGm.register(p1, p2);
-    assertThrows(NotEnoughCashException.class, () -> {
-      mockGm.runBettingPhase(10, 9999);
-    }, "Player #2 bet more than they had without error.");
+    BettingPhaseResult result = mockGm.runBettingPhase(10, 9999);
 
-    assertEquals(1000, p1.getCash(),
+    assertEquals(Result.PLAYER_2_BET_FAIL, result.phaseResult(),
+            "Betting phase result not registered as failure.");
+    assertEquals(1000, result.p1Cash(),
             "Player #1 does not have the correct amount of cash.");
-    assertEquals(1000, p2.getCash(),
+    assertEquals(1000, result.p2Cash(),
             "Player #2 does not have the correct amount of cash.");
-    assertEquals(0, mockGm.getThePot(), "The Pot did not reset on error.");
+    assertEquals(0, result.winnings(),
+            "Winnings were added despite a betting failure.");
   }
 
   @Test
   void standOffRoundValidateDealing() {
     MockDeck mockDeck = new MockDeck();
-
     List<Card> cards = new LinkedList<Card>();
     cards.add(new Card(Rank.FIVE, Suit.SPADES));
     cards.add(new Card(Rank.NINE, Suit.CLUBS));
-
     mockDeck.setCards(cards);
+
     MockGameMaster mockGm = new MockGameMaster(mockDeck);
-    Player p1 = new Player("Jim");
-    Player p2 = new Player("Sally");
+    mockGm.register("Jim", "Sally");
 
-    mockGm.register(p1, p2);
+    StandoffPhaseResult result = mockGm.runStandoffPhase();
 
-    assertNull(p1.getCard(), "Player #1 had a card before standoff phase.");
-    assertNull(p2.getCard(), "Player #2 had a card before standoff phase.");
-
-    mockGm.runStandoffPhase();
-
-    assertEquals(Rank.FIVE, p1.getCard().getRank(),
+    assertEquals(Rank.FIVE, result.p1Card().getRank(),
             "Player #1's card does not have the correct rank.");
-    assertEquals(Suit.SPADES, p1.getCard().getSuit(),
+    assertEquals(Suit.SPADES, result.p1Card().getSuit(),
             "Player #1's card does not have the correct suit.");
-    assertEquals(Rank.NINE, p2.getCard().getRank(),
+    assertEquals(Rank.NINE, result.p2Card().getRank(),
             "Player #2's card does not have the correct rank.");
-    assertEquals(Suit.CLUBS, p2.getCard().getSuit(),
+    assertEquals(Suit.CLUBS, result.p2Card().getSuit(),
             "Player #2's card does not have the correct suit.");
   }
 
   @Test
-  void standoffRoundPlayer1Wins() throws NotEnoughCashException {
+  void standoffRoundPlayer1Wins() {
     MockDeck mockDeck = new MockDeck();
-
     List<Card> cards = new LinkedList<Card>();
     cards.add(new Card(Rank.ACE, Suit.SPADES));
     cards.add(new Card(Rank.EIGHT, Suit.DIAMONDS));
-
     mockDeck.setCards(cards);
 
     MockGameMaster mockGm = new MockGameMaster(mockDeck);
-    Player p1 = new Player("Jim");
-    Player p2 = new Player("Sally");
+    mockGm.register("Jim", "Sally");
 
-    mockGm.register(p1, p2);
     mockGm.runBettingPhase(500, 500);
+    StandoffPhaseResult str = mockGm.runStandoffPhase();
 
-    int standoffPhaseResult = mockGm.runStandoffPhase();
-
-    assertEquals(0, mockGm.getThePot(),
+    assertEquals(1000, str.winnings(),
             "The Pot does not have the correct amount of cash.");
-    assertEquals(1, standoffPhaseResult,
+    assertEquals(Result.PLAYER_1_WIN, str.phaseResult(),
             "Standoff Phase did not result in correct winner.");
-    assertEquals(1500, p1.getCash(),
+    assertEquals(1500, str.p1Cash(),
             "Player #1 does not have the correct amount of cash.");
-    assertEquals(500, p2.getCash(),
+    assertEquals(500, str.p2Cash(),
             "Player #2 does not have the correct amount of cash.");
   }
 
   @Test
-  void standoffRoundPlayer2Wins() throws NotEnoughCashException {
+  void standoffRoundPlayer2Wins() {
     MockDeck mockDeck = new MockDeck();
-
     List<Card> cards = new LinkedList<Card>();
     cards.add(new Card(Rank.THREE, Suit.HEARTS));
     cards.add(new Card(Rank.JACK, Suit.SPADES));
@@ -142,51 +123,40 @@ public class GameMasterTests {
     mockDeck.setCards(cards);
 
     MockGameMaster mockGm = new MockGameMaster(mockDeck);
-    Player p1 = new Player("Jim");
-    Player p2 = new Player("Sally");
+    mockGm.register("Jim", "Sally");
 
-    mockGm.register(p1, p2);
     mockGm.runBettingPhase(200, 500);
+    StandoffPhaseResult result = mockGm.runStandoffPhase();
 
-    assertEquals(700, mockGm.getThePot(),
-            "The Pot does not have the correct amount of cash.");
-
-    int standoffPhaseResult = mockGm.runStandoffPhase();
-
-    assertEquals(-1, standoffPhaseResult,
+    assertEquals(Result.PLAYER_2_WIN, result.phaseResult(),
             "Standoff Phase did not result in correct winner.");
-    assertEquals(800, p1.getCash(),
+    assertEquals(800, result.p1Cash(),
             "Player #1 does not have the correct amount of cash.");
-    assertEquals(1200, p2.getCash(),
+    assertEquals(1200, result.p2Cash(),
             "Player #2 does not have the correct amount of cash.");
   }
 
   @Test
-  void standoffRoundTie() throws NotEnoughCashException {
+  void standoffRoundTie() {
     MockDeck mockDeck = new MockDeck();
-
     List<Card> cards = new LinkedList<Card>();
     cards.add(new Card(Rank.QUEEN, Suit.HEARTS));
     cards.add(new Card(Rank.QUEEN, Suit.HEARTS));
-
     mockDeck.setCards(cards);
 
     MockGameMaster mockGm = new MockGameMaster(mockDeck);
-    Player p1 = new Player("Jim");
-    Player p2 = new Player("Sally");
-
-    mockGm.register(p1, p2);
+    mockGm.register("Jim", "Sally");
     mockGm.runBettingPhase(1000, 1000);
 
-    int standoffPhaseResult = mockGm.runStandoffPhase();
+    StandoffPhaseResult result = mockGm.runStandoffPhase();
 
-    assertEquals(0, standoffPhaseResult,
+    assertEquals(Result.TIE, result.phaseResult(),
             "Standoff Phase did not result in correct winner.");
-    assertEquals(0, p1.getCash(),
+    assertEquals(0, result.p1Cash(),
             "Player #1 does not have the correct amount of cash.");
-    assertEquals(0, p2.getCash(),
+    assertEquals(0, result.p2Cash(),
             "Player #2 does not have the correct amount of cash.");
-    assertEquals(2000, mockGm.getThePot(),
+    assertEquals(2000, result.winnings(),
             "The Pot does not have the correct amount of cash.");
   }
 
