@@ -20,7 +20,7 @@
 	</dependencies>
 
 	<build>
-		<sourceDirectory>src</sourceDirectory>
+		<sourceDirectory>src/main/java</sourceDirectory>
 
 		<plugins>
 			<plugin>
@@ -29,19 +29,6 @@
 				<configuration>
 					<source>1.8</source>
 					<target>1.8</target>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.4</version>
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>com.maxwellhaley.war.WarGame</mainClass>
-						</manifest>
-					</archive>
 				</configuration>
 			</plugin>
 

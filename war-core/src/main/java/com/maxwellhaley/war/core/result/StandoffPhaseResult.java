@@ -2,8 +2,6 @@ package com.maxwellhaley.war.core.result;
 
 import java.util.Map;
 
-import com.maxwellhaley.war.core.constant.Player1;
-import com.maxwellhaley.war.core.constant.Player2;
 import com.maxwellhaley.war.core.model.Card;
 
 /**
@@ -15,9 +13,11 @@ import com.maxwellhaley.war.core.model.Card;
  * @since 2019-07-22
  */
 public class StandoffPhaseResult extends PhaseResult {
+  /** The card dealt to Player One during this phase. */
+  private final Card playerOneDealtCard;
 
-  /** The cards dealt to the players. */
-  private Map<String, Card> cards;
+  /** The card dealt to Player Two during this phase. */
+  private final Card playerTwoDealtCard;
 
   /**
    * Calls {@link PhaseResult#PhaseResult(Result, int, Map)}, while also setting
@@ -28,25 +28,26 @@ public class StandoffPhaseResult extends PhaseResult {
    * @param playersCash
    * @param cards
    */
-  public StandoffPhaseResult(Result standoffResult, int winnings,
-          Map<String, Integer> playersCash,
-          Map<String, Card> cards) {
-    super(standoffResult, winnings, playersCash);
-    this.cards = cards;
+  public StandoffPhaseResult(Result phaseResult, int winnings,
+          int playerOneCashValue, int playerTwoCashValue,
+          Card playerOneDealtCard, Card playerTwoDealtCard) {
+    super(phaseResult, winnings, playerOneCashValue, playerTwoCashValue);
+    this.playerOneDealtCard = playerOneDealtCard;
+    this.playerTwoDealtCard = playerTwoDealtCard;
   }
 
   /**
    * @return The card dealt to P1.
    */
-  public Card p1Card() {
-    return cards.get(Player1.CARD);
+  public Card playerOneDealtCard() {
+    return playerOneDealtCard;
   }
 
   /**
    * @return The card dealt to P2.
    */
-  public Card p2Card() {
-    return cards.get(Player2.CARD);
+  public Card playerTwoDealtCard() {
+    return playerTwoDealtCard;
   }
 
 }

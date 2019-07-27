@@ -1,10 +1,5 @@
 package com.maxwellhaley.war.core.result;
 
-import java.util.Map;
-
-import com.maxwellhaley.war.core.constant.Player1;
-import com.maxwellhaley.war.core.constant.Player2;
-
 /**
  * Represents the base elements needed in a result object. The result of the
  * phase itself, the updated winnings, and the current players cash values.
@@ -16,13 +11,16 @@ import com.maxwellhaley.war.core.constant.Player2;
 public abstract class PhaseResult {
 
   /** The result of the phase. */
-  private Result phaseResult;
+  private final Result phaseResult;
 
   /** The current winnings value. */
-  private int winnings;
+  private final int potValue;
 
-  /** The current players cash values. */
-  private Map<String, Integer> playersCash;
+  /** Player One's cash value. */
+  private final int playerOneCashValue;
+
+  /** Player Two's cash value. */
+  private final int playerTwoCashValue;
 
   /**
    * Default constructor for all phase results.
@@ -32,10 +30,12 @@ public abstract class PhaseResult {
    * @param playersCash
    */
   public PhaseResult(Result phaseResult, int winnings,
-          Map<String, Integer> playersCash) {
+          int playerOneCashValue, int playerTwoCashValue) {
+    
     this.phaseResult = phaseResult;
-    this.winnings = winnings;
-    this.playersCash = playersCash;
+    this.potValue = winnings;
+    this.playerOneCashValue = playerOneCashValue;
+    this.playerTwoCashValue = playerTwoCashValue;
   }
 
   /**
@@ -48,22 +48,16 @@ public abstract class PhaseResult {
   /**
    * @return The current winnings cash value after the phase.
    */
-  public int winnings() {
-    return winnings;
+  public int potValue() {
+    return potValue;
   };
-
-  /**
-   * @return The amount of cash P1 has after this phase.
-   */
-  public int p1Cash() {
-    return playersCash.get(Player1.CASH);
+  
+  public int playerOneCashValue() {
+    return playerOneCashValue;
   }
 
-  /**
-   * @return The amount of cash P2 has after this phase.
-   */
-  public int p2Cash() {
-    return playersCash.get(Player2.CASH);
+  public int playerTwoCashValue() {
+    return playerTwoCashValue;
   }
 
 }

@@ -22,7 +22,7 @@ public class WarPhaseResult extends StandoffPhaseResult {
   private Result riskResult;
 
   /** The card drawn by the dealer in the case of taking a risk. */
-  private Card dealersCard;
+  private Card dealersDealtCard;
 
   /**
    * Calls
@@ -37,11 +37,13 @@ public class WarPhaseResult extends StandoffPhaseResult {
    * @param dealersCard
    */
   public WarPhaseResult(Result phaseResult, int winnings,
-          Map<String, Integer> playersCash, Map<String, Card> playerCards,
-          Result riskResult, Card dealersCard) {
-    super(phaseResult, winnings, playersCash, playerCards);
+          int playerOneCashValue, int playerTwoCashValue,
+          Card playerOneDealtCard, Card playerTwoDealtCard, Result riskResult,
+          Card dealersDealtCard) {
+    super(phaseResult, winnings, playerOneCashValue, playerTwoCashValue,
+            playerOneDealtCard, playerTwoDealtCard);
     this.riskResult = riskResult;
-    this.dealersCard = dealersCard;
+    this.dealersDealtCard = dealersDealtCard;
   }
 
   /**
@@ -54,8 +56,8 @@ public class WarPhaseResult extends StandoffPhaseResult {
   /**
    * @return The dealers card drawn in the case of a risk.
    */
-  public Card dealersCard() {
-    return dealersCard;
+  public Card dealersDealtCard() {
+    return dealersDealtCard;
   }
 
 }
