@@ -12,6 +12,7 @@ import com.maxwellhaley.war.core.model.Suit;
 import com.maxwellhaley.war.core.result.BettingPhaseResult;
 import com.maxwellhaley.war.core.result.Outcome;
 import com.maxwellhaley.war.core.result.StandoffPhaseResult;
+import com.maxwellhaley.war.core.result.WarPhaseResult;
 import com.maxwellhaley.war.core.test.mock.MockDeck;
 import com.maxwellhaley.war.core.test.mock.MockGameMaster;
 
@@ -157,6 +158,212 @@ public class GameMasterTests {
     assertEquals(0, result.playerTwoCashValue(),
             "Player #2 does not have the correct amount of cash.");
     assertEquals(2000, result.potValue(),
+            "The Pot does not have the correct amount of cash.");
+  }
+  
+  @Test
+  void warPhaseTie() {
+    MockDeck mockDeck = new MockDeck();
+    List<Card> cards = new LinkedList<Card>();
+
+    // First three cards are burned
+    cards.add(new Card(Rank.QUEEN, Suit.HEARTS));
+    cards.add(new Card(Rank.QUEEN, Suit.HEARTS));
+    cards.add(new Card(Rank.QUEEN, Suit.HEARTS));
+
+    cards.add(new Card(Rank.QUEEN, Suit.HEARTS));
+    cards.add(new Card(Rank.QUEEN, Suit.HEARTS));
+    mockDeck.setCards(cards);
+
+    MockGameMaster mockGm = new MockGameMaster(mockDeck);
+    mockGm.register("Jim", "Sally");
+    mockGm.runBettingPhase(1000, 1000);
+
+    WarPhaseResult result = mockGm.runWarPhase(false, false);
+
+    assertEquals(Outcome.TIE, result.outcome(),
+            "War Phase did not result in correct winner.");
+    assertEquals(0, result.playerOneCashValue(),
+            "Player #1 does not have the correct amount of cash.");
+    assertEquals(0, result.playerTwoCashValue(),
+            "Player #2 does not have the correct amount of cash.");
+    assertEquals(2000, result.potValue(),
+            "The Pot does not have the correct amount of cash.");
+  }
+
+  @Test
+  void warPhasePlayerOneWinsNoRisk() {
+    MockDeck mockDeck = new MockDeck();
+    List<Card> cards = new LinkedList<Card>();
+
+    // First three cards are burned
+    cards.add(new Card(Rank.QUEEN, Suit.HEARTS));
+    cards.add(new Card(Rank.QUEEN, Suit.HEARTS));
+    cards.add(new Card(Rank.QUEEN, Suit.HEARTS));
+
+    cards.add(new Card(Rank.QUEEN, Suit.HEARTS));
+    cards.add(new Card(Rank.TWO, Suit.HEARTS));
+    mockDeck.setCards(cards);
+
+    MockGameMaster mockGm = new MockGameMaster(mockDeck);
+    mockGm.register("Jim", "Sally");
+    mockGm.runBettingPhase(1000, 1000);
+
+    WarPhaseResult result = mockGm.runWarPhase(false, false);
+
+    assertEquals(Outcome.PLAYER_1_WIN, result.outcome(),
+            "War Phase did not result in correct winner.");
+    assertEquals(null, result.riskOutcome(),
+            "Risk did not result in correct outcome.");
+    assertEquals(2000, result.playerOneCashValue(),
+            "Player #1 does not have the correct amount of cash.");
+    assertEquals(0, result.playerTwoCashValue(),
+            "Player #2 does not have the correct amount of cash.");
+    assertEquals(0, result.potValue(),
+            "The Pot does not have the correct amount of cash.");
+  }
+
+  @Test
+  void warPhasePlayerOneWinsNeutralRisk() {
+    MockDeck mockDeck = new MockDeck();
+    List<Card> cards = new LinkedList<Card>();
+
+    // First three cards are burned
+    cards.add(new Card(Rank.QUEEN, Suit.HEARTS));
+    cards.add(new Card(Rank.QUEEN, Suit.HEARTS));
+    cards.add(new Card(Rank.QUEEN, Suit.HEARTS));
+    
+    // Card dealt to the dealer
+    cards.add(new Card(Rank.TWO, Suit.SPADES));
+
+    // Player's cards
+    cards.add(new Card(Rank.QUEEN, Suit.HEARTS));
+    cards.add(new Card(Rank.THREE, Suit.DIAMONDS));
+    mockDeck.setCards(cards);
+
+    MockGameMaster mockGm = new MockGameMaster(mockDeck);
+    mockGm.register("Jim", "Sally");
+    mockGm.runBettingPhase(1000, 1000);
+
+    WarPhaseResult result = mockGm.runWarPhase(true, false);
+
+    assertEquals(Outcome.PLAYER_1_WIN, result.outcome(),
+            "War Phase did not result in correct winner.");
+    assertEquals(Outcome.RISK_NEUTRAL, result.riskOutcome(),
+            "Risk did not result in correct outcome.");
+    assertEquals(2000, result.playerOneCashValue(),
+            "Player #1 does not have the correct amount of cash.");
+    assertEquals(Rank.TWO, result.dealersDealtCard().getRank(),
+            "Dealer did not have the correct card rank.");
+    assertEquals(Suit.SPADES, result.dealersDealtCard().getSuit(),
+            "Dealer did not have the correct card suit.");
+    assertEquals(0, result.potValue(),
+            "The Pot does not have the correct amount of cash.");
+  }
+
+  @Test
+  void warPhasePlayerOneWinsLoseRisk() {
+    MockDeck mockDeck = new MockDeck();
+    List<Card> cards = new LinkedList<Card>();
+
+    // First three cards are burned
+    cards.add(new Card(Rank.QUEEN, Suit.HEARTS));
+    cards.add(new Card(Rank.QUEEN, Suit.HEARTS));
+    cards.add(new Card(Rank.QUEEN, Suit.HEARTS));
+    
+    // Card dealt to the dealer
+    cards.add(new Card(Rank.ACE, Suit.SPADES));
+
+    // Player's cards
+    cards.add(new Card(Rank.QUEEN, Suit.HEARTS));
+    cards.add(new Card(Rank.THREE, Suit.DIAMONDS));
+    mockDeck.setCards(cards);
+
+    MockGameMaster mockGm = new MockGameMaster(mockDeck);
+    mockGm.register("Jim", "Sally");
+    mockGm.runBettingPhase(1000, 1000);
+
+    WarPhaseResult result = mockGm.runWarPhase(true, false);
+
+    assertEquals(Outcome.PLAYER_1_WIN, result.outcome(),
+            "War Phase did not result in correct winner.");
+    assertEquals(Outcome.RISK_LOSE, result.riskOutcome(),
+            "Risk did not result in correct outcome.");
+    assertEquals(1000, result.playerOneCashValue(),
+            "Player #1 does not have the correct amount of cash.");
+    assertEquals(Rank.ACE, result.dealersDealtCard().getRank(),
+            "Dealer did not have the correct card rank.");
+    assertEquals(Suit.SPADES, result.dealersDealtCard().getSuit(),
+            "Dealer did not have the correct card suit.");
+    assertEquals(0, result.potValue(),
+            "The Pot does not have the correct amount of cash.");
+  }
+
+  @Test
+  void warPhasePlayerOneWinsWinRisk() {
+    MockDeck mockDeck = new MockDeck();
+    List<Card> cards = new LinkedList<Card>();
+
+    // First three cards are burned
+    cards.add(new Card(Rank.QUEEN, Suit.HEARTS));
+    cards.add(new Card(Rank.QUEEN, Suit.HEARTS));
+    cards.add(new Card(Rank.QUEEN, Suit.HEARTS));
+    
+    // Card dealt to the dealer
+    cards.add(new Card(Rank.FOUR, Suit.CLUBS));
+
+    // Player's cards
+    cards.add(new Card(Rank.FOUR, Suit.SPADES));
+    cards.add(new Card(Rank.THREE, Suit.DIAMONDS));
+    mockDeck.setCards(cards);
+
+    MockGameMaster mockGm = new MockGameMaster(mockDeck);
+    mockGm.register("Jim", "Sally");
+    mockGm.runBettingPhase(1000, 1000);
+
+    WarPhaseResult result = mockGm.runWarPhase(true, false);
+
+    assertEquals(Outcome.PLAYER_1_WIN, result.outcome(),
+            "War Phase did not result in correct winner.");
+    assertEquals(Outcome.RISK_WIN, result.riskOutcome(),
+            "Risk did not result in correct outcome.");
+    assertEquals(4000, result.playerOneCashValue(),
+            "Player #1 does not have the correct amount of cash.");
+    assertEquals(Rank.FOUR, result.dealersDealtCard().getRank(),
+            "Dealer did not have the correct card rank.");
+    assertEquals(Suit.CLUBS, result.dealersDealtCard().getSuit(),
+            "Dealer did not have the correct card suit.");
+    assertEquals(0, result.potValue(),
+            "The Pot does not have the correct amount of cash.");
+  }
+
+  @Test
+  void warPhasePlayerTwoWinsNoRisk() {
+    MockDeck mockDeck = new MockDeck();
+    List<Card> cards = new LinkedList<Card>();
+
+    // First three cards are burned
+    cards.add(new Card(Rank.QUEEN, Suit.HEARTS));
+    cards.add(new Card(Rank.QUEEN, Suit.HEARTS));
+    cards.add(new Card(Rank.QUEEN, Suit.HEARTS));
+
+    cards.add(new Card(Rank.FIVE, Suit.DIAMONDS));
+    cards.add(new Card(Rank.KING, Suit.SPADES));
+    mockDeck.setCards(cards);
+
+    MockGameMaster mockGm = new MockGameMaster(mockDeck);
+    mockGm.register("Jim", "Sally");
+    mockGm.runBettingPhase(1000, 1000);
+
+    WarPhaseResult result = mockGm.runWarPhase(false, false);
+
+    assertEquals(Outcome.PLAYER_2_WIN, result.outcome(),
+            "War Phase did not result in correct winner.");
+    assertEquals(0, result.playerOneCashValue(),
+            "Player #1 does not have the correct amount of cash.");
+    assertEquals(2000, result.playerTwoCashValue(),
+            "Player #2 does not have the correct amount of cash.");
+    assertEquals(0, result.potValue(),
             "The Pot does not have the correct amount of cash.");
   }
 
