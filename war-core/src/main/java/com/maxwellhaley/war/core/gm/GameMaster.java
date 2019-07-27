@@ -196,6 +196,7 @@ public class GameMaster {
         if (p1Risk) {
           riskResult = getRiskResult(playerOne.getCard(), dealersCard);
         }
+        playerOne.addCash(thePot.getValue());
         result = new WarPhaseResult(Outcome.PLAYER_1_WIN, thePot.getValue(),
                 playerOne.getCash(), playerTwo.getCash(), playerOne.getCard(),
                 playerTwo.getCard(),
@@ -206,6 +207,7 @@ public class GameMaster {
         if (p2Risk) {
           riskResult = getRiskResult(playerTwo.getCard(), dealersCard);
         }
+        playerTwo.addCash(thePot.getValue());
         result = new WarPhaseResult(Outcome.PLAYER_2_WIN, thePot.getValue(),
                 playerOne.getCash(), playerTwo.getCash(), playerOne.getCard(),
                 playerTwo.getCard(),
