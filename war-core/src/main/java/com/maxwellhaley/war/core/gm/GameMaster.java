@@ -213,7 +213,7 @@ public class GameMaster {
         thePot.clearValue();
         break;
       case 0:
-        result = new WarPhaseResult(Outcome.TIE, 0, playerOne.getCash(),
+        result = new WarPhaseResult(Outcome.TIE, thePot.getValue(), playerOne.getCash(),
                 playerTwo.getCash(), playerOne.getCard(),
                 playerTwo.getCard(),
                 riskResult, dealersCard);
