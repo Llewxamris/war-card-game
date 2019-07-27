@@ -190,7 +190,6 @@ public class GameMaster {
     playerTwo.setCard(dealCard());
 
     // Determine the winner
-    Outcome winner = null;
     Outcome riskResult = null;
     switch (playerOne.getCard().compareTo(playerTwo.getCard())) {
       case 1:
@@ -214,7 +213,7 @@ public class GameMaster {
         thePot.clearValue();
         break;
       case 0:
-        result = new WarPhaseResult(winner, 0, playerOne.getCash(),
+        result = new WarPhaseResult(Outcome.TIE, 0, playerOne.getCash(),
                 playerTwo.getCash(), playerOne.getCard(),
                 playerTwo.getCard(),
                 riskResult, dealersCard);
