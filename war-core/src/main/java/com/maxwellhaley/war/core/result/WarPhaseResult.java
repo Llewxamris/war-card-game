@@ -1,7 +1,5 @@
 package com.maxwellhaley.war.core.result;
 
-import java.util.Map;
-
 import com.maxwellhaley.war.core.model.Card;
 
 /**
@@ -18,39 +16,40 @@ import com.maxwellhaley.war.core.model.Card;
  */
 public class WarPhaseResult extends StandoffPhaseResult {
 
-  /** The result of taking a risk. */
-  private Outcome riskResult;
+  /** The outcome of taking a risk. */
+  private Outcome riskOutcome;
 
   /** The card drawn by the dealer in the case of taking a risk. */
   private Card dealersDealtCard;
 
   /**
-   * Calls
-   * {@link StandoffPhaseResult#StandoffPhaseResult(Outcome, int, Map, Map)},
-   * while also setting the risk result and dealers card. the players cards.
+   * Calls {@link StandoffPhaseResult}, while also setting the risk outcome and
+   * dealers card.
    * 
-   * @param phaseResult
-   * @param winnings
-   * @param playersCash
-   * @param playerCards
-   * @param riskResult
-   * @param dealersCard
+   * @param outcome
+   * @param potValue
+   * @param playerOneCashValue
+   * @param playerTwoCashValue
+   * @param playerOneDealtCard
+   * @param playerTwoDealtCard
+   * @param riskOutcome
+   * @param dealersDealtCard
    */
-  public WarPhaseResult(Outcome phaseResult, int winnings,
+  public WarPhaseResult(Outcome outcome, int potValue,
           int playerOneCashValue, int playerTwoCashValue,
-          Card playerOneDealtCard, Card playerTwoDealtCard, Outcome riskResult,
+          Card playerOneDealtCard, Card playerTwoDealtCard, Outcome riskOutcome,
           Card dealersDealtCard) {
-    super(phaseResult, winnings, playerOneCashValue, playerTwoCashValue,
+    super(outcome, potValue, playerOneCashValue, playerTwoCashValue,
             playerOneDealtCard, playerTwoDealtCard);
-    this.riskResult = riskResult;
+    this.riskOutcome = riskOutcome;
     this.dealersDealtCard = dealersDealtCard;
   }
 
   /**
-   * @return The result of taking the risk.
+   * @return The outcome of taking the risk.
    */
-  public Outcome riskResult() {
-    return riskResult;
+  public Outcome riskOutcome() {
+    return riskOutcome;
   }
 
   /**

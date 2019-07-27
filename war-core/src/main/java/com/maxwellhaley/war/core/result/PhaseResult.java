@@ -1,8 +1,8 @@
 package com.maxwellhaley.war.core.result;
 
 /**
- * Represents the base elements needed in a result object. The result of the
- * phase itself, the updated winnings, and the current players cash values.
+ * Represents the base elements needed in a result object. The outcome of the
+ * phase, the updated winnings, and the current players cash values.
  * 
  * @author Maxwell Haley
  * @version 2.0.0
@@ -10,8 +10,8 @@ package com.maxwellhaley.war.core.result;
  */
 public abstract class PhaseResult {
 
-  /** The result of the phase. */
-  private final Outcome phaseResult;
+  /** The outcome of the phase. */
+  private final Outcome outcome;
 
   /** The current winnings value. */
   private final int potValue;
@@ -25,24 +25,24 @@ public abstract class PhaseResult {
   /**
    * Default constructor for all phase results.
    * 
-   * @param phaseResult
-   * @param winnings
+   * @param outcome
+   * @param potValue
    * @param playersCash
    */
-  public PhaseResult(Outcome phaseResult, int winnings,
+  public PhaseResult(Outcome outcome, int potValue,
           int playerOneCashValue, int playerTwoCashValue) {
-    
-    this.phaseResult = phaseResult;
-    this.potValue = winnings;
+
+    this.outcome = outcome;
+    this.potValue = potValue;
     this.playerOneCashValue = playerOneCashValue;
     this.playerTwoCashValue = playerTwoCashValue;
   }
 
   /**
-   * @return The result of running the phase.
+   * @return The outcome of running the phase.
    */
-  public Outcome phaseResult() {
-    return phaseResult;
+  public Outcome outcome() {
+    return outcome;
   }
 
   /**
@@ -51,11 +51,21 @@ public abstract class PhaseResult {
   public int potValue() {
     return potValue;
   };
-  
+
+  /**
+   * Player One's cash value as of the end of the phase.
+   * 
+   * @return int - Player One's current cash value.
+   */
   public int playerOneCashValue() {
     return playerOneCashValue;
   }
 
+  /**
+   * Player Two's cash value as of the end of the phase.
+   * 
+   * @return int - Player Two's current cash value.
+   */
   public int playerTwoCashValue() {
     return playerTwoCashValue;
   }

@@ -23,17 +23,19 @@ public class GameMaster {
   /** The deck of cards. */
   protected Deck deck;
 
-  /** The first player */
+  /** The first player. */
   private Player playerOne;
 
-  /** The second player */
+  /** The second player. */
   private Player playerTwo;
 
-  private Pot thePot = new Pot();
+  /** The Pot. */
+  private Pot thePot;
 
   /** Can not instantiate the Game Master typically. */
   protected GameMaster() {
     deck = new Deck();
+    thePot = new Pot();
   }
 
   /** Sync-less Singleton implementation. */
@@ -72,11 +74,10 @@ public class GameMaster {
   }
 
   /**
-   * Sets both names and creates the map containing the players cash amounts.
+   * Creates both players.
    * 
    * @see Player
-   * @param p1Name - The first player's nameDuring this phase, three cards are
-   *               burnt and each player is dealt two new cards.
+   * @param p1Name - The first player's name
    * @param p2Name - The second player's name
    */
   public void register(String p1Name, String p2Name) {
@@ -89,10 +90,10 @@ public class GameMaster {
    * evaluated to determine if they are valid. If they are valid, they are
    * removed from their total cash pool and added to the pot.
    * 
-   * @param p1Bet - Player 1's bet
-   * @param p2Bet - Player 2's bet
+   * @param p1Bet - Player One's bet
+   * @param p2Bet - Player Two's bet
    * @see Outcome
-   * @return The result of the betting phase
+   * @return BettingPhaseResult - The result of the betting phase
    */
   public BettingPhaseResult runBettingPhase(int p1Bet, int p2Bet) {
     if (p1Bet > playerOne.getCash()) {
@@ -112,33 +113,33 @@ public class GameMaster {
 
   /**
    * Run the standoff phase of the game. During this phase, each player is dealt
-   * a card. If P1 has a greater card than P2, P1 wins the standoff. If P2 has a
-   * greater card, P2 wins the standoff. If both cards are equal, the
-   * <b>WAR!</b> phase begins.
+   * a card. If Player One has a greater card than Player Two, Player One wins
+   * the standoff. If Player Two has a greater card, Player Two wins the
+   * standoff. If both cards are equal, the <b>WAR!</b> phase begins.
    * 
+   * @return StandoffPhaseResult - Result of the standoff phase
    * @see Card
    * @see Outcome
    * @see GameMaster#runWarPhase(boolean, boolean)
-   * @return Result of the standoff phase
    */
   public StandoffPhaseResult runStandoffPhase() {
     StandoffPhaseResult result = null;
-    // Deal cards to Players
     playerOne.setCard(dealCard());
     playerTwo.setCard(dealCard());
 
     switch (playerOne.getCard().compareTo(playerTwo.getCard())) {
       case 1:
-
         playerOne.addCash(thePot.getValue());
-        result = new StandoffPhaseResult(Outcome.PLAYER_1_WIN, thePot.getValue(),
+        result = new StandoffPhaseResult(Outcome.PLAYER_1_WIN,
+                thePot.getValue(),
                 playerOne.getCash(), playerTwo.getCash(), playerOne.getCard(),
                 playerTwo.getCard());
         thePot.clearValue();
         break;
       case -1:
         playerTwo.addCash(thePot.getValue());
-        result = new StandoffPhaseResult(Outcome.PLAYER_2_WIN, thePot.getValue(),
+        result = new StandoffPhaseResult(Outcome.PLAYER_2_WIN,
+                thePot.getValue(),
                 playerOne.getCash(), playerTwo.getCash(), playerOne.getCard(),
                 playerTwo.getCard());
         thePot.clearValue();
@@ -164,8 +165,8 @@ public class GameMaster {
    * the winnings are doubled. A tie during <b>WAR!</b> should result in another
    * <b>WAR!</b> being ran.
    * 
-   * @param p1Risk - Is P1 taking a risk?
-   * @param p2Risk - Is P2 taking a risk?
+   * @param p1Risk - Is Player One taking a risk?
+   * @param p2Risk - Is Player Two taking a risk?
    * @return The <b>WAR!</b> phase results
    * @see GameMaster#runStandoffPhase()
    * @see Outcome
@@ -247,7 +248,10 @@ public class GameMaster {
   }
 
   /**
-   * @return The next card in the deck.
+   * Deal a card, and shuffles the deck if no more cards are remaining.
+   * 
+   * @return Card - The next card in the deck.
+   * @see Card
    */
   private Card dealCard() {
     if (deck.size() == 0) {

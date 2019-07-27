@@ -1,7 +1,7 @@
 package com.maxwellhaley.war.core.result;
 
 /**
- * All possible results from the several game phases.
+ * All possible outcomes from the several game phases.
  * 
  * @author Maxwell Haley
  * @version 2.0.0

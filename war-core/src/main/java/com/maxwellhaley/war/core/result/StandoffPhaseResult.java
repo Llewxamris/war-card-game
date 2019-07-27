@@ -1,7 +1,5 @@
 package com.maxwellhaley.war.core.result;
 
-import java.util.Map;
-
 import com.maxwellhaley.war.core.model.Card;
 
 /**
@@ -13,6 +11,7 @@ import com.maxwellhaley.war.core.model.Card;
  * @since 2019-07-22
  */
 public class StandoffPhaseResult extends PhaseResult {
+
   /** The card dealt to Player One during this phase. */
   private final Card playerOneDealtCard;
 
@@ -20,13 +19,14 @@ public class StandoffPhaseResult extends PhaseResult {
   private final Card playerTwoDealtCard;
 
   /**
-   * Calls {@link PhaseResult#PhaseResult(Outcome, int, Map)}, while also setting
-   * the players cards.
+   * Calls {@link PhaseResult}, while also setting the players cards.
    * 
-   * @param standoffResult
+   * @param phaseResult
    * @param winnings
-   * @param playersCash
-   * @param cards
+   * @param playerOneCashValue
+   * @param playerTwoCashValue
+   * @param playerOneDealtCard
+   * @param playerTwoDealtCard
    */
   public StandoffPhaseResult(Outcome phaseResult, int winnings,
           int playerOneCashValue, int playerTwoCashValue,
@@ -37,14 +37,14 @@ public class StandoffPhaseResult extends PhaseResult {
   }
 
   /**
-   * @return The card dealt to P1.
+   * @return The card dealt to Player One.
    */
   public Card playerOneDealtCard() {
     return playerOneDealtCard;
   }
 
   /**
-   * @return The card dealt to P2.
+   * @return The card dealt to Player Two.
    */
   public Card playerTwoDealtCard() {
     return playerTwoDealtCard;
