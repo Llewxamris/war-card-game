@@ -11,7 +11,7 @@ package com.maxwellhaley.war.core.result;
 public abstract class PhaseResult {
 
   /** The result of the phase. */
-  private final Result phaseResult;
+  private final Outcome phaseResult;
 
   /** The current winnings value. */
   private final int potValue;
@@ -29,7 +29,7 @@ public abstract class PhaseResult {
    * @param winnings
    * @param playersCash
    */
-  public PhaseResult(Result phaseResult, int winnings,
+  public PhaseResult(Outcome phaseResult, int winnings,
           int playerOneCashValue, int playerTwoCashValue) {
     
     this.phaseResult = phaseResult;
@@ -41,7 +41,7 @@ public abstract class PhaseResult {
   /**
    * @return The result of running the phase.
    */
-  public Result phaseResult() {
+  public Outcome phaseResult() {
     return phaseResult;
   }
 

@@ -5,7 +5,7 @@ import com.maxwellhaley.war.core.model.Deck;
 import com.maxwellhaley.war.core.model.Player;
 import com.maxwellhaley.war.core.model.Pot;
 import com.maxwellhaley.war.core.result.BettingPhaseResult;
-import com.maxwellhaley.war.core.result.Result;
+import com.maxwellhaley.war.core.result.Outcome;
 import com.maxwellhaley.war.core.result.StandoffPhaseResult;
 import com.maxwellhaley.war.core.result.WarPhaseResult;
 
@@ -91,21 +91,21 @@ public class GameMaster {
    * 
    * @param p1Bet - Player 1's bet
    * @param p2Bet - Player 2's bet
-   * @see Result
+   * @see Outcome
    * @return The result of the betting phase
    */
   public BettingPhaseResult runBettingPhase(int p1Bet, int p2Bet) {
     if (p1Bet > playerOne.getCash()) {
-      return new BettingPhaseResult(Result.PLAYER_1_BET_FAIL,
+      return new BettingPhaseResult(Outcome.PLAYER_1_BET_FAIL,
               0, playerOne.getCash(), playerTwo.getCash());
     } else if (p2Bet > playerTwo.getCash()) {
-      return new BettingPhaseResult(Result.PLAYER_2_BET_FAIL,
+      return new BettingPhaseResult(Outcome.PLAYER_2_BET_FAIL,
               0, playerOne.getCash(), playerTwo.getCash());
     } else {
       playerOne.subtractCash(p1Bet);
       playerTwo.subtractCash(p2Bet);
       thePot.addCash(p1Bet + p2Bet);
-      return new BettingPhaseResult(Result.BET_SUCCESS, thePot.getValue(),
+      return new BettingPhaseResult(Outcome.BET_SUCCESS, thePot.getValue(),
               playerOne.getCash(), playerTwo.getCash());
     }
   }
@@ -117,7 +117,7 @@ public class GameMaster {
    * <b>WAR!</b> phase begins.
    * 
    * @see Card
-   * @see Result
+   * @see Outcome
    * @see GameMaster#runWarPhase(boolean, boolean)
    * @return Result of the standoff phase
    */
@@ -131,20 +131,20 @@ public class GameMaster {
       case 1:
 
         playerOne.addCash(thePot.getValue());
-        result = new StandoffPhaseResult(Result.PLAYER_1_WIN, thePot.getValue(),
+        result = new StandoffPhaseResult(Outcome.PLAYER_1_WIN, thePot.getValue(),
                 playerOne.getCash(), playerTwo.getCash(), playerOne.getCard(),
                 playerTwo.getCard());
         thePot.clearValue();
         break;
       case -1:
         playerTwo.addCash(thePot.getValue());
-        result = new StandoffPhaseResult(Result.PLAYER_2_WIN, thePot.getValue(),
+        result = new StandoffPhaseResult(Outcome.PLAYER_2_WIN, thePot.getValue(),
                 playerOne.getCash(), playerTwo.getCash(), playerOne.getCard(),
                 playerTwo.getCard());
         thePot.clearValue();
         break;
       case 0:
-        result = new StandoffPhaseResult(Result.TIE, thePot.getValue(),
+        result = new StandoffPhaseResult(Outcome.TIE, thePot.getValue(),
                 playerOne.getCash(), playerTwo.getCash(), playerOne.getCard(),
                 playerTwo.getCard());
         break;
@@ -168,7 +168,7 @@ public class GameMaster {
    * @param p2Risk - Is P2 taking a risk?
    * @return The <b>WAR!</b> phase results
    * @see GameMaster#runStandoffPhase()
-   * @see Result
+   * @see Outcome
    */
   public WarPhaseResult runWarPhase(boolean p1Risk, boolean p2Risk) {
     WarPhaseResult result = null;
@@ -189,14 +189,14 @@ public class GameMaster {
     playerTwo.setCard(dealCard());
 
     // Determine the winner
-    Result winner = null;
-    Result riskResult = null;
+    Outcome winner = null;
+    Outcome riskResult = null;
     switch (playerOne.getCard().compareTo(playerTwo.getCard())) {
       case 1:
         if (p1Risk) {
           riskResult = getRiskResult(playerOne.getCard(), dealersCard);
         }
-        result = new WarPhaseResult(Result.PLAYER_1_WIN, thePot.getValue(),
+        result = new WarPhaseResult(Outcome.PLAYER_1_WIN, thePot.getValue(),
                 playerOne.getCash(), playerTwo.getCash(), playerOne.getCard(),
                 playerTwo.getCard(),
                 riskResult, dealersCard);
@@ -206,7 +206,7 @@ public class GameMaster {
         if (p2Risk) {
           riskResult = getRiskResult(playerTwo.getCard(), dealersCard);
         }
-        result = new WarPhaseResult(Result.PLAYER_2_WIN, thePot.getValue(),
+        result = new WarPhaseResult(Outcome.PLAYER_2_WIN, thePot.getValue(),
                 playerOne.getCash(), playerTwo.getCash(), playerOne.getCard(),
                 playerTwo.getCard(),
                 riskResult, dealersCard);
@@ -230,19 +230,19 @@ public class GameMaster {
    * @param dealersCard
    * @return The risk result
    */
-  private Result getRiskResult(Card playerCard, Card dealersCard) {
+  private Outcome getRiskResult(Card playerCard, Card dealersCard) {
     // TODO: Need to refactor this with GameMaster#runWarPhase(). Calling this
     // method to mutate the pot outside of the control of the calling method is
     // wrong.
     switch (playerCard.compareTo(dealersCard)) {
       case 1:
-        return Result.RISK_NEUTRAL;
+        return Outcome.RISK_NEUTRAL;
       case -1:
         thePot.halveValue();
-        return Result.RISK_LOSE;
+        return Outcome.RISK_LOSE;
       default:
         thePot.doubleValue();
-        return Result.RISK_WIN;
+        return Outcome.RISK_WIN;
     }
   }
 

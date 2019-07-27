@@ -20,7 +20,7 @@ public class StandoffPhaseResult extends PhaseResult {
   private final Card playerTwoDealtCard;
 
   /**
-   * Calls {@link PhaseResult#PhaseResult(Result, int, Map)}, while also setting
+   * Calls {@link PhaseResult#PhaseResult(Outcome, int, Map)}, while also setting
    * the players cards.
    * 
    * @param standoffResult
@@ -28,7 +28,7 @@ public class StandoffPhaseResult extends PhaseResult {
    * @param playersCash
    * @param cards
    */
-  public StandoffPhaseResult(Result phaseResult, int winnings,
+  public StandoffPhaseResult(Outcome phaseResult, int winnings,
           int playerOneCashValue, int playerTwoCashValue,
           Card playerOneDealtCard, Card playerTwoDealtCard) {
     super(phaseResult, winnings, playerOneCashValue, playerTwoCashValue);

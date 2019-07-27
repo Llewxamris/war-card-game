@@ -7,7 +7,7 @@ package com.maxwellhaley.war.core.result;
  * @version 2.0.0
  * @since 2019-07-22
  */
-public enum Result {
+public enum Outcome {
   /** P1 has won a phase. */
   PLAYER_1_WIN,
 

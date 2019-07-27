@@ -19,14 +19,14 @@ import com.maxwellhaley.war.core.model.Card;
 public class WarPhaseResult extends StandoffPhaseResult {
 
   /** The result of taking a risk. */
-  private Result riskResult;
+  private Outcome riskResult;
 
   /** The card drawn by the dealer in the case of taking a risk. */
   private Card dealersDealtCard;
 
   /**
    * Calls
-   * {@link StandoffPhaseResult#StandoffPhaseResult(Result, int, Map, Map)},
+   * {@link StandoffPhaseResult#StandoffPhaseResult(Outcome, int, Map, Map)},
    * while also setting the risk result and dealers card. the players cards.
    * 
    * @param phaseResult
@@ -36,9 +36,9 @@ public class WarPhaseResult extends StandoffPhaseResult {
    * @param riskResult
    * @param dealersCard
    */
-  public WarPhaseResult(Result phaseResult, int winnings,
+  public WarPhaseResult(Outcome phaseResult, int winnings,
           int playerOneCashValue, int playerTwoCashValue,
-          Card playerOneDealtCard, Card playerTwoDealtCard, Result riskResult,
+          Card playerOneDealtCard, Card playerTwoDealtCard, Outcome riskResult,
           Card dealersDealtCard) {
     super(phaseResult, winnings, playerOneCashValue, playerTwoCashValue,
             playerOneDealtCard, playerTwoDealtCard);
@@ -49,7 +49,7 @@ public class WarPhaseResult extends StandoffPhaseResult {
   /**
    * @return The result of taking the risk.
    */
-  public Result riskResult() {
+  public Outcome riskResult() {
     return riskResult;
   }
 

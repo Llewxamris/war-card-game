@@ -10,7 +10,7 @@ import com.maxwellhaley.war.core.model.Card;
 import com.maxwellhaley.war.core.model.Rank;
 import com.maxwellhaley.war.core.model.Suit;
 import com.maxwellhaley.war.core.result.BettingPhaseResult;
-import com.maxwellhaley.war.core.result.Result;
+import com.maxwellhaley.war.core.result.Outcome;
 import com.maxwellhaley.war.core.result.StandoffPhaseResult;
 import com.maxwellhaley.war.core.test.mock.MockDeck;
 import com.maxwellhaley.war.core.test.mock.MockGameMaster;
@@ -39,7 +39,7 @@ public class GameMasterTests {
 
     BettingPhaseResult result = mockGm.runBettingPhase(1001, 600);
 
-    assertEquals(Result.PLAYER_1_BET_FAIL, result.phaseResult(),
+    assertEquals(Outcome.PLAYER_1_BET_FAIL, result.phaseResult(),
             "Betting phase result not registered as failure.");
     assertEquals(1000, result.playerOneCashValue(),
             "Player #1 does not have the correct amount of cash.");
@@ -56,7 +56,7 @@ public class GameMasterTests {
 
     BettingPhaseResult result = mockGm.runBettingPhase(10, 9999);
 
-    assertEquals(Result.PLAYER_2_BET_FAIL, result.phaseResult(),
+    assertEquals(Outcome.PLAYER_2_BET_FAIL, result.phaseResult(),
             "Betting phase result not registered as failure.");
     assertEquals(1000, result.playerOneCashValue(),
             "Player #1 does not have the correct amount of cash.");
@@ -105,7 +105,7 @@ public class GameMasterTests {
 
     assertEquals(1000, str.potValue(),
             "The Pot does not have the correct amount of cash.");
-    assertEquals(Result.PLAYER_1_WIN, str.phaseResult(),
+    assertEquals(Outcome.PLAYER_1_WIN, str.phaseResult(),
             "Standoff Phase did not result in correct winner.");
     assertEquals(1500, str.playerOneCashValue(),
             "Player #1 does not have the correct amount of cash.");
@@ -128,7 +128,7 @@ public class GameMasterTests {
     mockGm.runBettingPhase(200, 500);
     StandoffPhaseResult result = mockGm.runStandoffPhase();
 
-    assertEquals(Result.PLAYER_2_WIN, result.phaseResult(),
+    assertEquals(Outcome.PLAYER_2_WIN, result.phaseResult(),
             "Standoff Phase did not result in correct winner.");
     assertEquals(800, result.playerOneCashValue(),
             "Player #1 does not have the correct amount of cash.");
@@ -150,7 +150,7 @@ public class GameMasterTests {
 
     StandoffPhaseResult result = mockGm.runStandoffPhase();
 
-    assertEquals(Result.TIE, result.phaseResult(),
+    assertEquals(Outcome.TIE, result.phaseResult(),
             "Standoff Phase did not result in correct winner.");
     assertEquals(0, result.playerOneCashValue(),
             "Player #1 does not have the correct amount of cash.");

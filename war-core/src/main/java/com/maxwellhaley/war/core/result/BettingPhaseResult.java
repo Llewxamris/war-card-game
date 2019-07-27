@@ -10,7 +10,7 @@ package com.maxwellhaley.war.core.result;
  */
 public class BettingPhaseResult extends PhaseResult {
 
-  public BettingPhaseResult(Result phaseResult, int winnings,
+  public BettingPhaseResult(Outcome phaseResult, int winnings,
           int playerOneCashValue, int playerTwoCashValue) {
     super(phaseResult, winnings, playerOneCashValue, playerTwoCashValue);
   }
