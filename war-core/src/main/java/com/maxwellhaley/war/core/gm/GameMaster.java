@@ -197,22 +197,22 @@ public class GameMaster {
           riskResult = getRiskResult(playerOne.getCard(), dealersCard);
         }
         playerOne.addCash(thePot.getValue());
+        thePot.clearValue();
         result = new WarPhaseResult(Outcome.PLAYER_1_WIN, thePot.getValue(),
                 playerOne.getCash(), playerTwo.getCash(), playerOne.getCard(),
                 playerTwo.getCard(),
                 riskResult, dealersCard);
-        thePot.clearValue();
         break;
       case -1:
         if (p2Risk) {
           riskResult = getRiskResult(playerTwo.getCard(), dealersCard);
         }
         playerTwo.addCash(thePot.getValue());
+        thePot.clearValue();
         result = new WarPhaseResult(Outcome.PLAYER_2_WIN, thePot.getValue(),
                 playerOne.getCash(), playerTwo.getCash(), playerOne.getCard(),
                 playerTwo.getCard(),
                 riskResult, dealersCard);
-        thePot.clearValue();
         break;
       case 0:
         result = new WarPhaseResult(Outcome.TIE, thePot.getValue(), playerOne.getCash(),
