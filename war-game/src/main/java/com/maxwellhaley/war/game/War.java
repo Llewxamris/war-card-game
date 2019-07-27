@@ -11,6 +11,7 @@ import com.googlecode.lanterna.screen.Screen;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
 import com.googlecode.lanterna.terminal.Terminal;
+import com.maxwellhaley.war.game.window.InstructionWindow;
 import com.maxwellhaley.war.game.window.MainMenu;
 
 public class War {
@@ -25,6 +26,7 @@ public class War {
       MultiWindowTextGUI gui = new MultiWindowTextGUI(screen,
               new DefaultWindowManager(), new EmptySpace(TextColor.ANSI.BLUE));
       gui.addWindowAndWait(new MainMenu());
+      gui.addWindowAndWait(new InstructionWindow());
     } catch (IOException e) {
       e.printStackTrace();
     } finally {

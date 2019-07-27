@@ -9,6 +9,8 @@ import com.googlecode.lanterna.gui2.Label;
 import com.googlecode.lanterna.gui2.LinearLayout;
 import com.googlecode.lanterna.gui2.LinearLayout.Alignment;
 import com.googlecode.lanterna.gui2.Panel;
+import com.maxwellhaley.war.game.GameStatus;
+import com.maxwellhaley.war.game.GameType;
 
 public class MainMenu extends BasicWindow {
 
@@ -39,6 +41,7 @@ public class MainMenu extends BasicWindow {
 
       @Override
       public void run() {
+        GameStatus.getInstance().setGameType(GameType.VS_CPU);
         close();
       }
     })
@@ -48,6 +51,7 @@ public class MainMenu extends BasicWindow {
 
       @Override
       public void run() {
+        GameStatus.getInstance().setGameType(GameType.VS_HUMAN);
         close();
       }
     })
