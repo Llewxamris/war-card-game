@@ -6,6 +6,9 @@ import com.maxwellhaley.war.core.model.Pot;
 import com.maxwellhaley.war.core.model.player.CpuPlayer;
 import com.maxwellhaley.war.core.model.player.HumanPlayer;
 import com.maxwellhaley.war.core.model.player.Player;
+import com.maxwellhaley.war.core.result.AbstractPhaseResult;
+import com.maxwellhaley.war.core.result.AbstractStandoffPhaseResult;
+import com.maxwellhaley.war.core.result.AbstractWarPhaseResult;
 import com.maxwellhaley.war.core.result.BettingPhaseResult;
 import com.maxwellhaley.war.core.result.Outcome;
 import com.maxwellhaley.war.core.result.StandoffPhaseResult;
@@ -97,7 +100,7 @@ public class GameMaster {
    * @see Outcome
    * @return BettingPhaseResult - The result of the betting phase
    */
-  public BettingPhaseResult runBettingPhase(int p1Bet, int p2Bet) {
+  public AbstractPhaseResult runBettingPhase(int p1Bet, int p2Bet) {
     if (p1Bet > playerOne.getCash()) {
 			playerOne.getCash();
       return new BettingPhaseResult(Outcome.PLAYER_1_BET_FAIL,
@@ -125,7 +128,7 @@ public class GameMaster {
    * @see Outcome
    * @see GameMaster#runWarPhase(boolean, boolean)
    */
-  public StandoffPhaseResult runStandoffPhase() {
+  public AbstractStandoffPhaseResult runStandoffPhase() {
     StandoffPhaseResult result = null;
     playerOne.setCard(dealCard());
     playerTwo.setCard(dealCard());
@@ -174,7 +177,7 @@ public class GameMaster {
    * @see GameMaster#runStandoffPhase()
    * @see Outcome
    */
-  public WarPhaseResult runWarPhase(boolean p1Risk, boolean p2Risk) {
+  public AbstractWarPhaseResult runWarPhase(boolean p1Risk, boolean p2Risk) {
     WarPhaseResult result = null;
 
     // Burn three cards

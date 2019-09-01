@@ -10,16 +10,10 @@ import com.maxwellhaley.war.core.model.Card;
  * @version 2.0.0
  * @since 2019-07-22
  */
-public class StandoffPhaseResult extends PhaseResult {
-
-  /** The card dealt to Player One during this phase. */
-  private final Card playerOneDealtCard;
-
-  /** The card dealt to Player Two during this phase. */
-  private final Card playerTwoDealtCard;
+public class StandoffPhaseResult extends AbstractStandoffPhaseResult {
 
   /**
-   * Calls {@link PhaseResult}, while also setting the players cards.
+   * Calls {@link AbstractStandoffPhaseResult}
    * 
    * @param phaseResult
    * @param winnings
@@ -28,26 +22,10 @@ public class StandoffPhaseResult extends PhaseResult {
    * @param playerOneDealtCard
    * @param playerTwoDealtCard
    */
-  public StandoffPhaseResult(Outcome phaseResult, int winnings,
+  public StandoffPhaseResult(Outcome outcome, int potValue,
           int playerOneCashValue, int playerTwoCashValue,
           Card playerOneDealtCard, Card playerTwoDealtCard) {
-    super(phaseResult, winnings, playerOneCashValue, playerTwoCashValue);
-    this.playerOneDealtCard = playerOneDealtCard;
-    this.playerTwoDealtCard = playerTwoDealtCard;
+    super(outcome, potValue, playerOneCashValue, playerTwoCashValue,
+            playerOneDealtCard, playerTwoDealtCard);
   }
-
-  /**
-   * @return The card dealt to Player One.
-   */
-  public Card playerOneDealtCard() {
-    return playerOneDealtCard;
-  }
-
-  /**
-   * @return The card dealt to Player Two.
-   */
-  public Card playerTwoDealtCard() {
-    return playerTwoDealtCard;
-  }
-
 }
