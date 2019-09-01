@@ -2,8 +2,10 @@ package com.maxwellhaley.war.core.gm;
 
 import com.maxwellhaley.war.core.model.Card;
 import com.maxwellhaley.war.core.model.Deck;
-import com.maxwellhaley.war.core.model.Player;
 import com.maxwellhaley.war.core.model.Pot;
+import com.maxwellhaley.war.core.model.player.CpuPlayer;
+import com.maxwellhaley.war.core.model.player.HumanPlayer;
+import com.maxwellhaley.war.core.model.player.Player;
 import com.maxwellhaley.war.core.result.BettingPhaseResult;
 import com.maxwellhaley.war.core.result.Outcome;
 import com.maxwellhaley.war.core.result.StandoffPhaseResult;
@@ -69,8 +71,8 @@ public class GameMaster {
    * @param p1Name - The human player's name
    */
   public void register(String p1Name) {
-    // TODO Generate the CPU player name
-    register(p1Name, "BOT");
+    playerOne = new HumanPlayer(p1Name);
+    playerTwo = new CpuPlayer();
   }
 
   /**
@@ -81,8 +83,8 @@ public class GameMaster {
    * @param p2Name - The second player's name
    */
   public void register(String p1Name, String p2Name) {
-    playerOne = new Player(p1Name);
-    playerTwo = new Player(p2Name);
+    playerOne = new HumanPlayer(p1Name);
+    playerTwo = new HumanPlayer(p2Name);
   }
 
   /**
@@ -97,6 +99,7 @@ public class GameMaster {
    */
   public BettingPhaseResult runBettingPhase(int p1Bet, int p2Bet) {
     if (p1Bet > playerOne.getCash()) {
+			playerOne.getCash();
       return new BettingPhaseResult(Outcome.PLAYER_1_BET_FAIL,
               0, playerOne.getCash(), playerTwo.getCash());
     } else if (p2Bet > playerTwo.getCash()) {

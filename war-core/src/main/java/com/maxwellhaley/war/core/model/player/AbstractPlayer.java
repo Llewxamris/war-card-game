@@ -1,6 +1,7 @@
-package com.maxwellhaley.war.core.model;
+package com.maxwellhaley.war.core.model.player;
 
 import com.maxwellhaley.war.core.gm.GameMaster;
+import com.maxwellhaley.war.core.model.Card;
 
 /**
  * Represents a single player in the game of <b>WAR!</b>. A player has a name, a
@@ -11,7 +12,7 @@ import com.maxwellhaley.war.core.gm.GameMaster;
  * @version 2.0.0
  * @since 2019-07-26
  */
-public class Player {
+public abstract class AbstractPlayer implements Player {
 
   /** The player's name. */
   private final String name;
@@ -27,7 +28,7 @@ public class Player {
    * 
    * @param name - The player's name.
    */
-  public Player(String name) {
+  public AbstractPlayer(String name) {
     this.name = name;
     cash = 1000;
     card = null;
@@ -49,9 +50,10 @@ public class Player {
 
   /**
    * @param card - New active card for the player.
+   * @return 
    */
-  public void setCard(Card card) {
-    this.card = card;
+  public Card setCard(Card card) {
+    return this.card = card;
   }
 
   /**
@@ -65,9 +67,10 @@ public class Player {
    * Adds some amount of earning to the player's cash value.
    * 
    * @param earnings - Amount of cash won.
+   * @return 
    */
-  public void addCash(int earnings) {
-    cash += earnings;
+  public int addCash(int cash) {
+    return this.cash += cash;
   }
 
   /**
@@ -76,8 +79,8 @@ public class Player {
    * @param bet - Amount of cash bet during the
    *            {@link GameMaster#runBettingPhase(int, int)}
    */
-  public void subtractCash(int bet) {
-    cash -= bet;
+  public int subtractCash(int cash) {
+    return this.cash -= cash;
   }
 
 }
